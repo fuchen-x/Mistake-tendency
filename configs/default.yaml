@@ -1,0 +1,86 @@
+project_root: ".."
+
+paths:
+  raw_data_dir: "data/raw/FOUNDATIONALASSIST"
+  processed_data_dir: "data/processed"
+  result_dir: "result"
+
+preprocess:
+  train_ratio: 0.60
+  validation_ratio: 0.20
+  test_ratio: 0.20
+  require_hint_count_zero: true
+  require_saw_answer_false: true
+  keep_first_student_problem: true
+  exclude_problem_ids: ["437233"]
+  max_profile_events: 50
+  max_problem_chars: 3500
+  min_train_wrong: 20
+  min_test_single_wrong: 5
+  seed: 20261020
+
+experiment:
+  batch_size: 10
+  concurrency: 2
+  json_retries: 3
+  bootstrap_iterations: 1000
+  probability_floor: 1.0e-12
+  min_profile_validation_tasks: 3
+
+provider: deepseek
+
+providers:
+  # deepseek:
+  #   kind: openai_compatible
+  #   model: deepseek-flash
+  #   api_key_env: DEEPSEEK_API_KEY
+  #   base_url: https://api.deepseek.com
+  #   json_mode: true
+  #   temperature: 0.0
+  #   max_tokens: 4096
+  #   timeout_seconds: 180
+  #   max_retries: 3
+  deepseek:
+    kind: openai_compatible
+    model: deepseek-flash
+    api_key_env: DEEPSEEK_API_KEY
+    base_url: https://api.deepseek.com
+    json_mode: true
+    json_mode_fallback: true
+    thinking: disabled
+    max_tokens: 4096
+    timeout_seconds: 180
+    max_retries: 3
+
+  gpt:
+    kind: openai_responses
+    model: gpt-5.5
+    api_key_env: OPENAI_API_KEY
+    max_tokens: 4096
+    timeout_seconds: 180
+    max_retries: 3
+
+  qwen:
+    kind: openai_compatible
+    model: qwen3.8-max
+    api_key_env: DASHSCOPE_API_KEY
+    base_url_env: QWEN_BASE_URL
+    base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+    json_mode: true
+    temperature: 0.0
+    max_tokens: 4096
+    timeout_seconds: 180
+    max_retries: 3
+
+  claude:
+    kind: anthropic
+    model: claude-sonnet-5-5
+    api_key_env: ANTHROPIC_API_KEY
+    max_tokens: 4096
+    timeout_seconds: 180
+    max_retries: 3
+
+  mock:
+    kind: mock
+    model: deterministic-mock
+
